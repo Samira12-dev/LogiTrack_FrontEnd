@@ -1,6 +1,36 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { register } from "../service/authService";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
+    const navigate = useNavigate();
+    const [formDate , setFormDate] = useState({
+        nom: "",
+        prenom: "",
+        email: "",
+        password:""
+    })
+
+    const handleChnage = (e) => {
+        setFormDate({
+            ...formDate, [e.target.name]: e.target.value
+        })
+    }
+    const handlSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await register(formDate);
+            console.log(response);
+            alert("Account created successfully");
+            navigate("/login")
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    
+
     return (
         <section className="auth-section">
 
@@ -8,7 +38,7 @@ export default function Register() {
 
                 <h2>Create Account</h2>
 
-                <form className="auth-form">
+                <form className="auth-form" onSubmit={handlSubmit}>
 
                     <div className="form-group">
                         <label htmlFor="nom">Last Name</label>
@@ -17,6 +47,8 @@ export default function Register() {
                             id="nom"
                             name="nom"
                             placeholder="Enter your last name"
+                            value={formDate.nom}
+                            onChange={handleChnage}
                         />
                     </div>
 
@@ -27,6 +59,8 @@ export default function Register() {
                             id="prenom"
                             name="prenom"
                             placeholder="Enter your first name"
+                            value={formDate.prenom}
+                            onChange={handleChnage}
                         />
                     </div>
 
@@ -37,6 +71,8 @@ export default function Register() {
                             id="email"
                             name="email"
                             placeholder="Enter your email"
+                            value={formDate.email}
+                            onChange={handleChnage}
                         />
                     </div>
 
@@ -47,6 +83,8 @@ export default function Register() {
                             id="password"
                             name="password"
                             placeholder="Enter your password"
+                            value={formDate.password}
+                            onChange={handleChnage}
                         />
                     </div>
 
