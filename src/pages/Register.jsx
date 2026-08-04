@@ -1,17 +1,14 @@
-import img from "../img/img.png";
 import { Link } from "react-router-dom";
 
 export default function Register() {
     return (
-        <section className="login-section">
-            <div className="login-design">
-                <h1>Create your account</h1>
-                <p>Join LogiTrack and manage your shipments easily.</p>
-                <img src={img} alt="LogiTrack" />
-            </div>
+        <section className="auth-section">
 
-            <div className="login-container register-container">
-                <form className="register-form">
+            <div className="auth-container">
+
+                <h2>Create Account</h2>
+
+                <form className="auth-form">
 
                     <div className="form-group">
                         <label htmlFor="nom">Last Name</label>
@@ -53,7 +50,7 @@ export default function Register() {
                         />
                     </div>
 
-                    <button type="submit" className="register-btn">
+                    <button type="submit" className="auth-btn">
                         Register
                     </button>
 
@@ -63,7 +60,9 @@ export default function Register() {
                     </p>
 
                 </form>
+
             </div>
+
         </section>
     );
 }
