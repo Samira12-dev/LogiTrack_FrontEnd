@@ -5,7 +5,8 @@ export default function Header() {
     return (
         <header className="header">
             <div className="header-container">
-
+                
+                
                 <h1 className="logo">
                     <FaTruckFast className="icon" />
                     Logi<span>Track</span>
