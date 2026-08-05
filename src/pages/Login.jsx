@@ -22,19 +22,14 @@ export default function Login() {
         e.preventDefault();
         try {
             const response = await login(formDate);
-            
-            localStorage.setItem(
-                "token",
-                response.token
-            );
-
-
-            localStorage.setItem(
-                "role",
-                response.role
-            );
-
-
+            localStorage.setItem( "token",  response.token );
+            localStorage.setItem("user", JSON.stringify({
+                id:response.id,
+                nom:response.nom,
+                prenom:response.prenom,
+                email:response.email,
+                role:response.role
+            }))
             navigate("/dashboard");
         } catch (error) {
             console.log(error);

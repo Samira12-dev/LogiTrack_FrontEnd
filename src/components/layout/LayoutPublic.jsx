@@ -5,7 +5,7 @@ export default function LayoutPublic(){
     return(
         <>
         <Header/>
-
+        
         <main>
             <Outlet/>
         </main>
