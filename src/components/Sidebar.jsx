@@ -14,62 +14,26 @@ export default function Sidebar() {
 
     return (
         <aside className="sidebar">
-
             <div className="sidebar-logo">
                 <FaTruckFast />
                 <h2>LogiTrack</h2>
             </div>
 
-
             <nav className="sidebar-menu">
-
-                <NavLink to="/dashboard">
-                    <FaChartLine />
-                    Dashboard
-                </NavLink>
-
-
-                <NavLink to="/clients">
-                    <FaUsers />
-                    Clients
-                </NavLink>
-
-
-                <NavLink to="/products">
-                    <FaBox />
-                    Products
-                </NavLink>
-
-
-                <NavLink to="/orders">
-                    <FaClipboardList />
-                    Orders
-                </NavLink>
-
-
-                <NavLink to="/users">
-                    <FaUsers />
-                    Users
-                </NavLink>
-
-
-                <NavLink to="/profile">
-                    <FaUser />
-                    Profile
-                </NavLink>
+                <NavLink to="/dashboard" end>Dashboard</NavLink>
+                <NavLink to="/dashboard/clients">Clients</NavLink>
+                <NavLink to="/dashboard/products">Products</NavLink>
+                <NavLink to="/dashboard/orders">Orders</NavLink>
+                <NavLink to="/dashboard/users">Users</NavLink>
+                <NavLink to="/dashboard/profile">Profile</NavLink>
 
             </nav>
 
-
-            <button 
-                className="logout-btn"
-                onClick={handleLogout}
-            >
-                <FaRightFromBracket/>
+            <button className="logout-btn"
+                onClick={handleLogout}>
+                <FaRightFromBracket />
                 Logout
             </button>
-
-
         </aside>
     );
 }

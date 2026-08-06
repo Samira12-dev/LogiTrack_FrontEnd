@@ -10,6 +10,13 @@ import LayoutPrivate from './components/layout/LayoutPrivate'
 import NotFound from './pages/NotFound'
 import AccessDenied from './pages/AccessDenied'
 import ProtectedRoute from './components/auth/ProtectedRoute'
+import Clients from './pages/Clients'
+import Products from './pages/Products'
+import Orders from './pages/Orders'
+import Users from './pages/Users'
+import ClientsForm from './components/clients/ClientsForm'
+import ProductForm from './components/products/ProductsForm'
+import OrdersForm from './components/orders/OrdersForm'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -26,16 +33,25 @@ function App() {
           <Route path='/access-denied' element={<AccessDenied />} />
         </Route>
 
-        <Route path='/dashboard' element={<LayoutPrivate />}>
-          <Route index path='/dashboard' element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
+        <Route element={<ProtectedRoute />}>
+          <Route path='/dashboard' element={<LayoutPrivate />}>
+            <Route index element={<Dashboard />} />
+            <Route path='clients' element={<Clients />} />
+            <Route path='clients/ajouter-client' element={<ClientsForm/>}/>
+            <Route path='products' element={<Products/>}/>
+            <Route path='products/ajouter-product' element={<ProductForm/>}/>
+            <Route path='orders' element={<Orders/>}/>
+            <Route path='orders/ajouter-order' element={<OrdersForm/>}/>
+          </Route>
 
-          } />
         </Route>
 
+
+
       </Routes>
+
+
+
 
 
 
