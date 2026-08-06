@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 
-function RoleGuard({ roles, children }) {
+function RoleGuard({ roles = [], children }) {
 
   // Njibo l'utilisateur men localStorage
   const user = JSON.parse(localStorage.getItem("user"));

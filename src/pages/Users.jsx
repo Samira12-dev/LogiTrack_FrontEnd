@@ -15,6 +15,8 @@ export default function Users() {
             .catch((error) => console.log(error))
     }, [])
 
+    const user = JSON.parse(localStorage.getItem("user"));
+
     return (
         <>
             <div className="users-page">
@@ -22,9 +24,11 @@ export default function Users() {
                 <div className="page-header">
                     <h1>Users</h1>
 
-                    <button onClick={(() => navigate("/dashboard/users/ajouter-user"))} className="add-client-btn">
+                    {user.role === "ADMIN" && (
+                        <button onClick={(() => navigate("/dashboard/users/ajouter-user"))} className="add-client-btn">
                         + Add User
                     </button>
+                    )}
                 </div>
 
                 <table className="users-table">
