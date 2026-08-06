@@ -20,6 +20,7 @@ import OrdersForm from './components/orders/OrdersForm'
 import UserForm from './components/users/UserForm'
 import Profile from './pages/Profile'
 import EditProfile from './pages/EditProfile'
+import RoleGuard from './components/auth/RoleGuard'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -38,17 +39,43 @@ function App() {
 
         <Route element={<ProtectedRoute />}>
           <Route path='/dashboard' element={<LayoutPrivate />}>
-            <Route index element={<Dashboard />} />
-            <Route path='clients' element={<Clients />} />
-            <Route path='clients/ajouter-client' element={<ClientsForm/>}/>
-            <Route path='products' element={<Products/>}/>
-            <Route path='products/ajouter-product' element={<ProductForm/>}/>
-            <Route path='orders' element={<Orders/>}/>
-            <Route path='orders/ajouter-order' element={<OrdersForm/>}/>
-            <Route path='users' element={<Users/>}/>
-            <Route path='users/ajouter-user' element={<UserForm/>}/>
-            <Route  path='profile' element ={<Profile/>}/>
-            <Route  path='profile/edit-profile' element={<EditProfile/>}/>
+            <Route index element={
+              <RoleGuard roles={["ADMIN", "MANAGER", "AGENT"]}>
+                <Dashboard />
+              </RoleGuard>} />
+            <Route path='clients' element={
+              <RoleGuard roles={["ADMIN", "MANAGER", "AGENT"]}>
+                <Clients />
+              </RoleGuard>} />
+            <Route path='clients/ajouter-client' element={<ClientsForm />} />
+            <Route path='products' element={
+              <RoleGuard roles={["ADMIN", "MANAGER", "AGENT"]}>
+                <Products />
+              </RoleGuard>} />
+            <Route path='products/ajouter-product' element={<ProductForm />} />
+            <Route path='orders' element={
+              <RoleGuard roles={["ADMIN", "MANAGER", "AGENT"]}>
+                <Orders />
+              </RoleGuard>
+            } />
+            <Route path='orders/ajouter-order' element={<OrdersForm />} />
+            <Route path='users' element={
+              <RoleGuard roles={["ADMIN"]}>
+                <Users />
+              </RoleGuard>
+            } />
+            <Route path='users/ajouter-user' element={
+              <RoleGuard roles={["ADMIN"]}>
+                <UserForm />
+              </RoleGuard>} />
+            <Route path='profile' element={
+              <RoleGuard roles={["ADMIN", "MANAGER", "AGENT"]}>
+                <Profile />
+              </RoleGuard>} />
+            <Route path='profile/edit-profile' element={
+              <RoleGuard roles={["ADMIN", "MANAGER", "AGENT"]}>
+                <EditProfile />
+              </RoleGuard>} />
           </Route>
 
         </Route>
