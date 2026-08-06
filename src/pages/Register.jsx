@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 export default function Register() {
     const navigate = useNavigate();
-    const [formDate , setFormDate] = useState({
+    const [formDate, setFormDate] = useState({
         nom: "",
         prenom: "",
         email: "",
-        password:""
+        password: ""
     })
 
     const handleChnage = (e) => {
@@ -24,12 +24,12 @@ export default function Register() {
             const response = await register(formDate);
             console.log(response);
             alert("Account created successfully");
-            navigate("/login")
+            navigate("/users")
         } catch (error) {
             console.log(error);
         }
     };
-    
+
 
     return (
         <section className="auth-section">
@@ -87,15 +87,25 @@ export default function Register() {
                             onChange={handleChnage}
                         />
                     </div>
+                    <div className="form-group">
+                        <select
+                            name="role"
+                        
+                        >
+                            <option value="ADMIN">Admin</option>
+                            <option value="MANAGER">Manager</option>
+                            <option value="AGENT">Agent</option>
+                        </select>
+                    </div>
 
                     <button type="submit" className="auth-btn">
                         Register
                     </button>
 
-                    <p className="auth-link">
+                    {/* <p className="auth-link">
                         Already have an account?
                         <Link to="/login"> Login</Link>
-                    </p>
+                    </p> */}
 
                 </form>
 

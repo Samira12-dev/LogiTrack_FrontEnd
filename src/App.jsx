@@ -17,6 +17,9 @@ import Users from './pages/Users'
 import ClientsForm from './components/clients/ClientsForm'
 import ProductForm from './components/products/ProductsForm'
 import OrdersForm from './components/orders/OrdersForm'
+import UserForm from './components/users/UserForm'
+import Profile from './pages/Profile'
+import EditProfile from './pages/EditProfile'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -42,6 +45,10 @@ function App() {
             <Route path='products/ajouter-product' element={<ProductForm/>}/>
             <Route path='orders' element={<Orders/>}/>
             <Route path='orders/ajouter-order' element={<OrdersForm/>}/>
+            <Route path='users' element={<Users/>}/>
+            <Route path='users/ajouter-user' element={<UserForm/>}/>
+            <Route  path='profile' element ={<Profile/>}/>
+            <Route  path='profile/edit-profile' element={<EditProfile/>}/>
           </Route>
 
         </Route>

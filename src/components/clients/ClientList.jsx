@@ -2,7 +2,6 @@ export default function ClientList({client}) {
     return (
         <>
 
-               
                     <tr>
                         <td>{client.nom}</td>
                         <td>{client.email}</td>
