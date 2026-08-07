@@ -11,6 +11,7 @@ export default function Sidebar() {
         navigate("/login");
     };
 
+    const user= JSON.parse(localStorage.getItem("user"));
 
     return (
         <aside className="sidebar">
@@ -24,7 +25,16 @@ export default function Sidebar() {
                 <NavLink to="/dashboard/clients">Clients</NavLink>
                 <NavLink to="/dashboard/products">Products</NavLink>
                 <NavLink to="/dashboard/orders">Orders</NavLink>
-                <NavLink to="/dashboard/users">Users</NavLink>
+                {user.role === "ADMIN" && (
+                    <NavLink to="/dashboard/users">
+                        Users
+                    </NavLink>
+                )}
+                {/* {(user.role === "ADMIN" || user.role === "MANAGER") && (
+                    <NavLink to="/dashboard/statistics">
+                        Statistics
+                    </NavLink>
+                )} */}
                 <NavLink to="/dashboard/profile">Profile</NavLink>
 
             </nav>

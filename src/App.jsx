@@ -21,6 +21,7 @@ import UserForm from './components/users/UserForm'
 import Profile from './pages/Profile'
 import EditProfile from './pages/EditProfile'
 import RoleGuard from './components/auth/RoleGuard'
+import ProductDetails from './components/products/ProductsDetails'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -33,8 +34,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path='*' element={<NotFound />} />
           <Route path='/access-denied' element={<AccessDenied />} />
+          <Route path='*' element={<NotFound />} />
         </Route>
 
         <Route element={<ProtectedRoute />}>
@@ -53,6 +54,17 @@ function App() {
                 <Products />
               </RoleGuard>} />
             <Route path='products/ajouter-product' element={<ProductForm />} />
+
+            <Route
+              path="products/:id"
+              element={
+                <RoleGuard roles={["ADMIN", "MANAGER", "AGENT"]}>
+                  <ProductDetails />
+                </RoleGuard>
+              }
+            />
+
+            
             <Route path='orders' element={
               <RoleGuard roles={["ADMIN", "MANAGER", "AGENT"]}>
                 <Orders />

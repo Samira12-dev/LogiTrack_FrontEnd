@@ -1594,3 +1594,22 @@ color:#fff;
     }
 
 }
+
+
+/*inputs within products*/
+.filters {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.filters input[type="text"],
+.filters input[type="number"] {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+
+

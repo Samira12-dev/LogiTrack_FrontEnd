@@ -2,6 +2,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const api = axios.create({
+
     baseURL: "http://localhost:8080/api",
     headers: {
         "Content-Type": "application/json"
