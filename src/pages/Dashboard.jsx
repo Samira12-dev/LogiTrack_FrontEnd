@@ -1,6 +1,22 @@
+import { useEffect, useState } from "react";
 import { FaUsers, FaBox, FaTruck, FaClock, FaCheck, FaTriangleExclamation } from "react-icons/fa6";
+import { getTotalClient } from "../service/clientService";
 
 export default function Dashboard() {
+    const [totalClients, setTotalClients] = useState(0)
+
+    const totalClient = async ()=>{
+        try{
+            const res = await getTotalClient()
+            setTotalClients(res.data)
+        }catch(error){
+            console.log(error);
+        }
+        
+    }
+    useEffect(()=>{
+        totalClient()
+    },[])
     return (
         <div className="dashboard">
 
@@ -11,7 +27,7 @@ export default function Dashboard() {
                 <div className="stat-card">
                     <FaUsers className="stat-icon" />
                     <div>
-                        <h3>120</h3>
+                        <h3>{totalClients}</h3>
                         <p>Clients</p>
                     </div>
                 </div>
