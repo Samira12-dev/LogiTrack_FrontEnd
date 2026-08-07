@@ -1,13 +1,15 @@
 
-export default function Pagination() {
+export default function Pagination({ page, totalPages, setPage
+
+}) {
     return (
         <div className="pagination">
 
-            <button>Previous</button>
+            <button disabled={page === 0} onClick={() => setPage(page - 1)}  >Previous</button>
 
-            <span>Page 1 / 5</span>
+            <span>Page{page + 1} /{totalPages}</span>
 
-            <button>Next</button>
+            <button   disabled={page === totalPages - 1} onClick={() => setPage(page + 1)}>Next</button>
 
         </div>
     );

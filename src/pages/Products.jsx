@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
-import { getAllProducts } from "../service/productService";
-import { deleteProduct } from "../service/productService";
-import ProductList from "../components/products/ProductList";
 
+import ProductList from "../components/products/ProductList";
+import Pagination from "../components/common/Pagination";
+import { getAllProducts, deleteProduct, searchByCategory, searchByPrice, getLowStock } from "../service/productService";
 export default function Products() {
 
     const navigate = useNavigate();
@@ -16,30 +16,13 @@ export default function Products() {
 
     const [lowStock, setLowStock] = useState(false);
 
-    const filterProducts = products.filter((p) =>
-    (
-        p.category.toLowerCase().includes(category.toLowerCase()) &&
-        (price === "" || p.price <= Number(price)) &&
-        (!lowStock || p.quantityStock < 10)
-    )
-    );
+    const [page, setPage] = useState(0);
+
+    const [size] = useState(5);
+
+    const [totalPages, setTotalPages] = useState(0);
 
 
-    const getproducts = async () => {
-        try {
-            const res = await getAllProducts()
-            setProducts(res.data);
-           console.log(res.data);
-           
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    useEffect(() => {
-        getproducts();
-    }, [])
-    
 
     const handleDelete = async (id) => {
         try {
@@ -54,7 +37,44 @@ export default function Products() {
         }
     };
 
+
+    const getProducts = async () => {
+        try {
+            let res;
+
+            if (category.trim() !== "") {
+                res = await searchByCategory(category);
+                setProducts(res.data);
+                setTotalPages(1);
+
+            } else if (price !== "") {
+                res = await searchByPrice(price);
+                setProducts(res.data);
+                setTotalPages(1);
+
+            } else if (lowStock) {
+                res = await getLowStock();
+                setProducts(res.data);
+                setTotalPages(1);
+
+            } else {
+                res = await getAllProducts(page, size);
+                setProducts(res.data.content);
+                setTotalPages(res.data.totalPages);
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getProducts();
+    }, [page, category, price, lowStock]);
+
+
     return (
+
         <>
             <div className="products-page">
                 <div className="page-header">
@@ -101,11 +121,18 @@ export default function Products() {
                     </thead>
 
                     <tbody>
-                        {filterProducts.map((p) => (
+                        {products.map((p) => (
                             <ProductList key={p.id} produit={p} onDelete={handleDelete} />
                         ))}
                     </tbody>
                 </table>
+                {category === "" && price === "" && !lowStock && (
+                    <Pagination
+                        page={page}
+                        totalPages={totalPages}
+                        setPage={setPage}
+                    />
+                )}
             </div>
         </>
     )
