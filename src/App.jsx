@@ -63,8 +63,16 @@ function App() {
                 </RoleGuard>
               }
             />
+            <Route
+              path="products/edit/:id"
+              element={
+                <RoleGuard roles={["ADMIN", "MANAGER"]}>
+                  <ProductForm />
+                </RoleGuard>
+              }
+            />
 
-            
+
             <Route path='orders' element={
               <RoleGuard roles={["ADMIN", "MANAGER", "AGENT"]}>
                 <Orders />
