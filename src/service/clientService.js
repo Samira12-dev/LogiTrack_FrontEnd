@@ -4,7 +4,6 @@ export const getAllClients =(page,size)=>{
     return api.get(`/clients?page=${page}&size=${size}`)
 }
 
-
 export const getTotalClient=()=>{
     return api.get("/clients/count")
 }

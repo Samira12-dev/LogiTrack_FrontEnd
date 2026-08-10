@@ -23,7 +23,8 @@ import EditProfile from './pages/EditProfile'
 import RoleGuard from './components/auth/RoleGuard'
 import ProductDetails from './components/products/ProductsDetails'
 import ClientsDetails from './components/clients/ClientsDetails'
-
+import OrderDetails from './components/orders/OrderDetails'
+import AddProductToOrder from './components/orders/AddProductToOrder'
 function App() {
   const [count, setCount] = useState(0)
 
@@ -97,7 +98,21 @@ function App() {
                 <Orders />
               </RoleGuard>
             } />
+            <Route
+              path="/dashboard/orders/:id"
+              element={
+                <RoleGuard roles={["ADMIN", "MANAGER", "AGENT"]}>
+                  <OrderDetails />
+                </RoleGuard>} />
+
             <Route path='orders/ajouter-order' element={<OrdersForm />} />
+
+            <Route path='orders/:id/produit' element={
+              <RoleGuard roles={["ADMIN", "MANAGER"]}>
+                <AddProductToOrder />
+              </RoleGuard>
+            } />
+
             <Route path='users' element={
               <RoleGuard roles={["ADMIN"]}>
                 <Users />

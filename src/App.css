@@ -1615,3 +1615,39 @@ color:#fff;
 
 
 
+.order-details select{
+width:100%;
+padding:12px;
+border:1px solid #d1d5db;
+border-radius:8px;
+background:#fff;
+outline:none;
+}
+
+.order-details select:focus
+
+.details-actions{
+display:flex;
+gap:15px;
+margin-top:30px;
+}
+
+.details-actions button{
+width:auto;
+padding:12px 25px;
+border:none;
+border-radius:8px;
+color:#fff;
+}
+
+.btn-back{
+background:#64748b;
+}
+
+.btn-back:hover
+
+.btn-update{
+background:#16a34a;
+}
+
+

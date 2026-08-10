@@ -30,11 +30,7 @@ export default function Sidebar() {
                         Users
                     </NavLink>
                 )}
-                {/* {(user.role === "ADMIN" || user.role === "MANAGER") && (
-                    <NavLink to="/dashboard/statistics">
-                        Statistics
-                    </NavLink>
-                )} */}
+        
                 <NavLink to="/dashboard/profile">Profile</NavLink>
 
             </nav>
