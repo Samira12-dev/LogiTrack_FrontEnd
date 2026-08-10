@@ -1,7 +1,26 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getMyProfile } from "../service/userService";
 
 export default function Profile() {
+
     const navigate = useNavigate();
+
+    const [user, setUser] = useState({});
+
+    const getProfile = async () => {
+        try {
+            const res = await getMyProfile();
+            setUser(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getProfile();
+    }, []);
+
     return (
         <div className="profile-page">
 
@@ -24,31 +43,31 @@ export default function Profile() {
 
                     <div className="profile-info">
                         <label>Last Name</label>
-                        <p>Samira</p>
+                        <p>{user.prenom}</p>
                     </div>
 
                     <div className="profile-info">
                         <label>First Name</label>
-                        <p>El</p>
+                        <p>{user.nom}</p>
                     </div>
 
                     <div className="profile-info">
                         <label>Email</label>
-                        <p>samira@gmail.com</p>
+                        <p>{user.email}</p>
                     </div>
 
                     <div className="profile-info">
                         <label>Role</label>
-                        <span className="role-badge">ADMIN</span>
+                        <span className="role-badge">{user.role}</span>
                     </div>
 
                 </div>
 
-                <div className="profile-actions">
+                {/* <div className="profile-actions">
                     <button className="edit-btn" onClick={(()=>navigate("/dashboard/profile/edit-profile"))} >
                         Edit Profile
                     </button>
-                </div>
+                </div> */}
 
             </div>
 

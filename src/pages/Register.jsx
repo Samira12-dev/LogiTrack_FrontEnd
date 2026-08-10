@@ -1,35 +1,50 @@
-import { Link } from "react-router-dom";
+
 import { useState } from "react";
 import { register } from "../service/authService";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
+
     const navigate = useNavigate();
-    const [formDate, setFormDate] = useState({
+
+    const [formData, setFormData] = useState({
         nom: "",
         prenom: "",
         email: "",
-        password: ""
-    })
+        password: "",
+        role: "AGENT"
+    });
 
-    const handleChnage = (e) => {
-        setFormDate({
-            ...formDate, [e.target.name]: e.target.value
-        })
-    }
-    const handlSubmit = async (e) => {
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await register(formDate);
-            console.log(response);
+            console.log("DATA SENT:", formData);
+
+            const response = await register(formData);
+
+            console.log("REGISTER RESPONSE:", response);
+
             alert("Account created successfully");
-            navigate("/users")
+
+            navigate("/dashboard/users");
+
         } catch (error) {
-            console.log(error);
+
+            console.log("REGISTER ERROR:", error);
+
+            console.log("BACKEND ERROR:", error.response?.data);
+
+            alert("Error while creating account");
         }
     };
-
 
     return (
         <section className="auth-section">
@@ -38,74 +53,81 @@ export default function Register() {
 
                 <h2>Create Account</h2>
 
-                <form className="auth-form" onSubmit={handlSubmit}>
+                <form
+                    className="auth-form"
+                    onSubmit={handleSubmit}
+                >
 
                     <div className="form-group">
-                        <label htmlFor="nom">Last Name</label>
+                        <label>Last Name</label>
+
                         <input
                             type="text"
-                            id="nom"
                             name="nom"
                             placeholder="Enter your last name"
-                            value={formDate.nom}
-                            onChange={handleChnage}
+                            value={formData.nom}
+                            onChange={handleChange}
                         />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="prenom">First Name</label>
+                        <label>First Name</label>
+
                         <input
                             type="text"
-                            id="prenom"
                             name="prenom"
                             placeholder="Enter your first name"
-                            value={formDate.prenom}
-                            onChange={handleChnage}
+                            value={formData.prenom}
+                            onChange={handleChange}
                         />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="email">Email</label>
+                        <label>Email</label>
+
                         <input
                             type="email"
-                            id="email"
                             name="email"
                             placeholder="Enter your email"
-                            value={formDate.email}
-                            onChange={handleChnage}
+                            value={formData.email}
+                            onChange={handleChange}
                         />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="password">Password</label>
+                        <label>Password</label>
+
                         <input
                             type="password"
-                            id="password"
                             name="password"
                             placeholder="Enter your password"
-                            value={formDate.password}
-                            onChange={handleChnage}
+                            value={formData.password}
+                            onChange={handleChange}
                         />
                     </div>
+
                     <div className="form-group">
+
+                        <label>Role</label>
+
                         <select
                             name="role"
-                        
+                            value={formData.role}
+                            onChange={handleChange}
                         >
                             <option value="ADMIN">Admin</option>
                             <option value="MANAGER">Manager</option>
                             <option value="AGENT">Agent</option>
                         </select>
+
                     </div>
 
-                    <button type="submit" className="auth-btn">
+                    <button
+                        type="submit"
+                        className="auth-btn"
+                    >
                         Register
                     </button>
-
-                    {/* <p className="auth-link">
-                        Already have an account?
-                        <Link to="/login"> Login</Link>
-                    </p> */}
 
                 </form>
 
@@ -114,3 +136,4 @@ export default function Register() {
         </section>
     );
 }
+
