@@ -31,3 +31,15 @@ return api.get(`/commands?statut=${status}&page=${page}&size=${size}`);
 export const getTotalOrders=()=>{
     return api.get("/commands/count")
 }
+
+export const getPendingOrders = () => {
+return api.get("/commands/count/pending");
+};
+
+export const getShippedOrders = () => {
+return api.get("/commands/count/shipped");
+};
+
+export const getDeliveredOrders = () => {
+return api.get("/commands/count/delivered");
+};

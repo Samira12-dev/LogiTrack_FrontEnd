@@ -3,54 +3,135 @@ import { FaUsers, FaBox, FaTruck, FaClock, FaCheck, FaTriangleExclamation } from
 import { getTotalClient } from "../service/clientService";
 import { getTotalProduct } from "../service/productService";
 import { getTotalOrders } from "../service/orderService";
-
+import { getPendingOrders, getShippedOrders, getDeliveredOrders } from "../service/orderService";
+import { getLowStock } from "../service/productService";
+import { getAllOrders } from "../service/orderService";
+import { getAllClients } from "../service/clientService";
 export default function Dashboard() {
 
     const [totalClients, setTotalClients] = useState(0)
-    const [totalProducts,setTotalProducts]=useState(0)
 
-    const[totalCommands, setTotalCommands] = useState(0);
+    const [totalProducts, setTotalProducts] = useState(0)
 
-    const totalClient = async ()=>{
-        try{
+    const [totalCommands, setTotalCommands] = useState(0);
+
+    const [pendingOrders, setPendingOrders] = useState(0);
+
+    const [shippedOrders, setShippedOrders] = useState(0);
+
+    const [deliveredOrders, setDeliveredOrders] = useState(0);
+
+    const [lowStock, setLowStock] = useState([]);
+
+    const [recentOrders, setRecentOrders] = useState([]);
+
+    const [clients, setClients] = useState([]);
+
+    const totalClient = async () => {
+        try {
             const res = await getTotalClient()
             setTotalClients(res.data)
-        }catch(error){
+        } catch (error) {
             console.log(error);
         }
-        
+
     }
 
-    const totalProduct= async ()=>{
-        try{
-            const res= await getTotalProduct()
+    const totalProduct = async () => {
+        try {
+            const res = await getTotalProduct()
             setTotalProducts(res.data)
-        }catch (error){
+        } catch (error) {
             console.log(error);
         }
     }
 
-    const totalOrders= async() =>{
-        try{
-            const res= await getTotalOrders()
+    const totalOrders = async () => {
+        try {
+            const res = await getTotalOrders()
             setTotalCommands(res.data);
-        }catch(error){
+        } catch (error) {
             console.log(error);
         }
     }
+    const getPending = async () => {
+        try {
+            const res = await getPendingOrders();
+            setPendingOrders(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getShipped = async () => {
+        try {
+            const res = await getShippedOrders();
+            setShippedOrders(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getDelivered = async () => {
+        try {
+            const res = await getDeliveredOrders();
+            setDeliveredOrders(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getLowStockProducts = async () => {
+        try {
+            const res = await getLowStock();
+            setLowStock(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
 
-    useEffect(()=>{
+    const getRecentOrders = async () => {
+        try {
+            const res = await getAllOrders(0, 3);
+            setRecentOrders(res.data.content);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const getClients = async () => {
+    try {
+        const res = await getAllClients(0, 100);
+        setClients(res.data.content);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+    useEffect(() => {
         totalClient()
-    },[])
+    }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         totalProduct();
-    },[])
+    }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         totalOrders();
-    },[])
+    }, [])
+
+    useEffect(() => {
+        getDelivered();
+        getShipped();
+        getPending();
+    }, [])
+
+
+    useEffect(() => {
+        getLowStockProducts();
+        getRecentOrders();
+        getClients();
+    }, [])
     return (
         <div className="dashboard">
 
@@ -85,7 +166,7 @@ export default function Dashboard() {
                 <div className="stat-card">
                     <FaClock className="stat-icon" />
                     <div>
-                        <h3>25</h3>
+                        <h3>{pendingOrders}</h3>
                         <p>Pending Orders</p>
                     </div>
                 </div>
@@ -93,7 +174,7 @@ export default function Dashboard() {
                 <div className="stat-card">
                     <FaTruck className="stat-icon" />
                     <div>
-                        <h3>90</h3>
+                        <h3>{shippedOrders}</h3>
                         <p>Shipped Orders</p>
                     </div>
                 </div>
@@ -101,7 +182,7 @@ export default function Dashboard() {
                 <div className="stat-card">
                     <FaCheck className="stat-icon" />
                     <div>
-                        <h3>85</h3>
+                        <h3>{deliveredOrders}</h3>
                         <p>Delivered Orders</p>
                     </div>
                 </div>
@@ -130,20 +211,12 @@ export default function Dashboard() {
 
                         <tbody>
 
-                            <tr>
-                                <td>Laptop</td>
-                                <td>3</td>
-                            </tr>
-
-                            <tr>
-                                <td>Printer</td>
-                                <td>5</td>
-                            </tr>
-
-                            <tr>
-                                <td>Mouse</td>
-                                <td>2</td>
-                            </tr>
+                            {lowStock.map((product) => (
+                                <tr key={product.id}>
+                                    <td>{product.nom}</td>
+                                    <td>{product.quantityStock}</td>
+                                </tr>
+                            ))}
 
                         </tbody>
 
@@ -172,38 +245,39 @@ export default function Dashboard() {
 
                         <tbody>
 
-                            <tr>
-                                <td>Ahmed</td>
-                                <td>04/08/2026</td>
-                                <td>
-                                    <span className="status delivered">
-                                        DELIVERED
-                                    </span>
-                                </td>
-                            </tr>
+                            {recentOrders.map((order) => {
 
+                                const client = clients.find(
+                                    (c) => c.id === order.clientId
+                                );
 
-                            <tr>
-                                <td>Sara</td>
-                                <td>03/08/2026</td>
-                                <td>
-                                    <span className="status pending">
-                                        PENDING
-                                    </span>
-                                </td>
-                            </tr>
+                                return (
+                                    <tr key={order.id}>
 
+                                        <td>{client?.nom}</td>
 
-                            <tr>
-                                <td>Yassine</td>
-                                <td>02/08/2026</td>
-                                <td>
-                                    <span className="status shipped">
-                                        SHIPPED
-                                    </span>
-                                </td>
-                            </tr>
+                                        <td>{order.datecommand}</td>
 
+                                        <td>
+
+                                            <span className={
+                                                order.commandeStatut === "LIVREE"
+                                                    ? "status delivered"
+                                                    : order.commandeStatut === "EXPEDIEE"
+                                                        ? "status shipped"
+                                                        : "status pending"
+                                            }>
+
+                                                {order.commandeStatut}
+
+                                            </span>
+
+                                        </td>
+
+                                    </tr>
+                                );
+
+                            })}
 
                         </tbody>
 
