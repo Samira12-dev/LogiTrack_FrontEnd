@@ -1,16 +1,37 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ClientList from "../components/clients/ClientList";
-import { getAllClients } from "../service/clientService";
-
+import { deleteClient, getAllClients } from "../service/clientService";
+import Pagination from"../components/common/Pagination";
 export default function Clients() {
   const navigate = useNavigate();
   const [clients, setClient] = useState([])
 
+  const [page, setPage] = useState(0);
+
+  const [size] = useState(5);
+
+  const [totalPages, setTotalPages] = useState(0);
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteClient(id);
+
+      setClient((prevClients) =>
+        prevClients.filter((c) => c.id !== id)
+      );
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   const getClients = async () => {
     try {
-      const res = await getAllClients()
-      setClient(res.data)
+      const res = await getAllClients(page,size)
+      setClient(res.data.content)
+      setTotalPages(res.data.totalPages)
 
     } catch (error) {
       console.log(error)
@@ -19,7 +40,7 @@ export default function Clients() {
 
   useEffect(() => {
     getClients();
-  }, [])
+  }, [page])
   return (
     <div className="clients-page">
       <div className="page-header">
@@ -40,13 +61,15 @@ export default function Clients() {
 
         <tbody>
           {clients.map((c) => (
-            <ClientList key={c.id} client={c} />
+            <ClientList key={c.id} client={c} onDelete={handleDelete} />
           ))}
         </tbody>
       </table>
-
-
-
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        setPage={setPage}
+      />
     </div>
   );
 }

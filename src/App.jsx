@@ -22,6 +22,7 @@ import Profile from './pages/Profile'
 import EditProfile from './pages/EditProfile'
 import RoleGuard from './components/auth/RoleGuard'
 import ProductDetails from './components/products/ProductsDetails'
+import ClientsDetails from './components/clients/ClientsDetails'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -44,15 +45,33 @@ function App() {
               <RoleGuard roles={["ADMIN", "MANAGER", "AGENT"]}>
                 <Dashboard />
               </RoleGuard>} />
+
             <Route path='clients' element={
               <RoleGuard roles={["ADMIN", "MANAGER", "AGENT"]}>
                 <Clients />
               </RoleGuard>} />
+
             <Route path='clients/ajouter-client' element={<ClientsForm />} />
+
+
+            <Route path='clients/:id' element={
+              <RoleGuard roles={["ADMIN", "MANAGER", "AGENT"]}>
+                <ClientsDetails />
+              </RoleGuard>} />
+            <Route
+              path="clients/edit/:id"
+              element={
+                <RoleGuard roles={["ADMIN", "MANAGER"]}>
+                  <ClientsForm />
+                </RoleGuard>
+              }
+            />
+
             <Route path='products' element={
               <RoleGuard roles={["ADMIN", "MANAGER", "AGENT"]}>
                 <Products />
               </RoleGuard>} />
+
             <Route path='products/ajouter-product' element={<ProductForm />} />
 
             <Route

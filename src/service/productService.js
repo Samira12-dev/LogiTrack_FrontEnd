@@ -28,3 +28,7 @@ export const searchByPrice = (price) => {
 export const getLowStock = () => {
     return api.get("/produit/low-stock");
 };
+
+export const getTotalProduct=()=>{
+    return api.get("/produit/count")
+}
