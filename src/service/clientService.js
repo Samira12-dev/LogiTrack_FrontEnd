@@ -1,7 +1,9 @@
 import api from "./Api"
 
-export const getAllClients =(page,size)=>{
-    return api.get(`/clients?page=${page}&size=${size}`)
+export const getAllClients = (page, size, nom = "", orderBy = "id", order = "asc") => {
+    return api.get("/clients", {
+        params: { page, size, nom, orderBy, order }
+    })
 }
 
 export const getTotalClient=()=>{

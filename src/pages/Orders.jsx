@@ -2,12 +2,18 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
     getAllOrders,
-    getOrdersByStatus,
     getOrdersByClient
 } from "../service/orderService";
 import Pagination from "../components/common/Pagination";
+import SortControls from "../components/common/SortControls";
 import OrdersList from "../components/orders/OrdersList";
 import { getAllClients } from "../service/clientService";
+
+const sortFields = [
+    { value: "datecommand", label: "Date" },
+    { value: "commandeStatut", label: "Statut" },
+    { value: "id", label: "ID" }
+];
 
 export default function Orders() {
 
@@ -15,11 +21,14 @@ export default function Orders() {
 
     const [orders, setOrders] = useState([]);
     const [page, setPage] = useState(0);
-    const [size] = useState(5);
+    const [size, setSize] = useState(5);
     const [totalPages, setTotalPages] = useState(0);
+    const [totalElements, setTotalElements] = useState(0);
     const [status, setStatus] = useState("");
     const [clients, setClients] = useState([]);
     const [clientId, setClientId] = useState("");
+    const [orderBy, setOrderBy] = useState("id");
+    const [order, setOrder] = useState("asc");
 
     const getOrders = async () => {
         try {
@@ -29,14 +38,12 @@ export default function Orders() {
                 res = await getOrdersByClient(clientId);
                 setOrders(res.data);
                 setTotalPages(1);
-            } else if (status !== "") {
-                res = await getOrdersByStatus(status, page, size);
-                setOrders(res.data.content);
-                setTotalPages(res.data.totalPages);
+                setTotalElements(res.data.length);
             } else {
-                res = await getAllOrders(page, size);
+                res = await getAllOrders(page, size, status, orderBy, order);
                 setOrders(res.data.content);
                 setTotalPages(res.data.totalPages);
+                setTotalElements(res.data.totalElements);
             }
 
         } catch (error) {
@@ -46,14 +53,14 @@ export default function Orders() {
 
     useEffect(() => {
         getOrders();
-    }, [page, status, clientId]);
+    }, [page, status, clientId, size, orderBy, order]);
 
     const getClients = async () => {
         try {
             const res = await getAllClients(0, 100);
             setClients(res.data.content);
         } catch (error) {
-            console.log( error);
+            console.log(error);
         }
     };
 
@@ -61,12 +68,35 @@ export default function Orders() {
         getClients();
     }, []);
 
+    const handleOrderByChange = (value) => {
+        setOrderBy(value);
+        setPage(0);
+    };
+
+    const handleOrderChange = (value) => {
+        setOrder(value);
+        setPage(0);
+    };
+
     return (
         <div className="orders-page">
 
             <div className="page-header">
 
                 <h1>Orders</h1>
+
+                <button
+                    onClick={() =>
+                        navigate("/dashboard/orders/ajouter-order")
+                    }
+                    className="add-order-btn"
+                >
+                    + Add Order
+                </button>
+
+            </div>
+
+            <div className="toolbar">
 
                 <select
                     value={clientId}
@@ -97,14 +127,13 @@ export default function Orders() {
                     <option value="LIVREE">LIVREE</option>
                 </select>
 
-                <button
-                    onClick={() =>
-                        navigate("/dashboard/orders/ajouter-order")
-                    }
-                    className="add-order-btn"
-                >
-                    + Add Order
-                </button>
+                <SortControls
+                    fields={sortFields}
+                    orderBy={orderBy}
+                    order={order}
+                    setOrderBy={handleOrderByChange}
+                    setOrder={handleOrderChange}
+                />
 
             </div>
 
@@ -136,6 +165,9 @@ export default function Orders() {
                 page={page}
                 totalPages={totalPages}
                 setPage={setPage}
+                size={size}
+                setSize={setSize}
+                totalElements={totalElements}
             />
 
         </div>

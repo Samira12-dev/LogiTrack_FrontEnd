@@ -1,7 +1,9 @@
 import api from "./Api"
 
-export const getAllProducts= (page, size, order, orderBy)=>{
-    return api.get(`/produit?page=${page}&size=${size}&sort=${orderBy},${order}`)
+export const getAllProducts = (page, size, orderBy = "id", order = "asc") => {
+    return api.get("/produit", {
+        params: { page, size, orderBy, order }
+    })
 }
 export const deleteProduct =(id)=>{
     return api.delete(`/produit/${id}`)

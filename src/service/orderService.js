@@ -1,7 +1,11 @@
 import api from "./Api";
 
-export const getAllOrders = (page, size) => {
-    return api.get(`/commands?page=${page}&size=${size}`);
+export const getAllOrders = (page, size, statut = "", orderBy = "id", order = "asc") => {
+    const params = { page, size, orderBy, order };
+    if (statut !== "") {
+        params.statut = statut;
+    }
+    return api.get("/commands", { params });
 };
 
 export const getOrderById = (id) => {

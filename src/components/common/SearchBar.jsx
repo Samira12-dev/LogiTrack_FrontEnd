@@ -1,13 +1,15 @@
-export default function SearchBar() {
+export default function SearchBar({ placeholder = "Rechercher un client...", value, onChange, onSearch }) {
     return (
         <div className="search-bar">
 
             <input
                 type="text"
-                placeholder="Rechercher un client..."
+                placeholder={placeholder}
+                value={value}
+                onChange={onChange}
             />
 
-            <button>Rechercher</button>
+            <button onClick={onSearch}>Rechercher</button>
 
         </div>
     );

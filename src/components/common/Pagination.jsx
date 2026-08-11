@@ -1,15 +1,25 @@
 
-export default function Pagination({ page, totalPages, setPage
+export default function Pagination({ page, totalPages, setPage, size, setSize, totalElements }) {
 
-}) {
+    const handleSizeChange = (e) => {
+        setSize(Number(e.target.value));
+        setPage(0);
+    };
+
     return (
         <div className="pagination">
 
-            <button disabled={page === 0} onClick={() => setPage(page - 1)}  >Previous</button>
+            <div className="pagination-controls">
 
-            <span>Page{page + 1} /{totalPages}</span>
+                <button disabled={page === 0} onClick={() => setPage(page - 1)}>Previous</button>
 
-            <button   disabled={page === totalPages - 1} onClick={() => setPage(page + 1)}>Next</button>
+                <span>Page {page + 1} / {totalPages}</span>
+
+                <button disabled={page === totalPages - 1} onClick={() => setPage(page + 1)}>Next</button>
+
+            </div>
+
+            
 
         </div>
     );

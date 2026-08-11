@@ -41,40 +41,54 @@ export default function AddProductToOrder() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>Add Product</h2>
+    <form
+        className="add-product-order-form"
+        onSubmit={handleSubmit}
+    >
+        <h2>Add Product</h2>
 
-            <label>Product</label>
+        <label>Product</label>
 
-            <select value={productId} onChange={(e) => setProductId(e.target.value)}>
-                <option value="">Select Product</option>
+        <select
+            value={productId}
+            onChange={(e) => setProductId(e.target.value)}
+        >
+            <option value="">Select Product</option>
 
-                {products.map((product) => (
-                    <option key={product.id} value={product.id}>
-                        {product.nom}
-                    </option>
-                ))}
+            {products.map((product) => (
+                <option key={product.id} value={product.id}>
+                    {product.nom}
+                </option>
+            ))}
+        </select>
 
-            </select>
+        <label>Quantity</label>
 
-            <label>Quantity</label>
+        <input
+            type="number"
+            min="1"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+        />
 
-            <input
-                type="number"
-                min="1"
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-            />
+        <div className="add-product-order-form-buttons">
 
-            <button type="submit">Add Product</button>
+            <button
+                type="submit"
+                className="add-btn"
+            >
+                Add Product
+            </button>
 
             <button
                 type="button"
+                className="cancel-btn"
                 onClick={() => navigate(`/dashboard/orders/${id}`)}
             >
                 Cancel
             </button>
 
-        </form>
-    );
+        </div>
+    </form>
+);
 }
