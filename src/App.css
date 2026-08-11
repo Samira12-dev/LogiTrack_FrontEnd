@@ -1687,3 +1687,26 @@ background:#16a34a;
 }
 
 
+
+.status-badge{
+display:inline-block;
+padding:6px 14px;
+border-radius:20px;
+font-size:12px;
+font-weight:600;
+}
+
+.status-badge.en_attente{
+background:#fff3cd;
+color:#856404;
+}
+
+.status-badge.expediee{
+background:#cfe2ff;
+color:#084298;
+}
+
+.status-badge.livree{
+background:#d1e7dd;
+color:#0f5132;
+}

@@ -2,7 +2,11 @@ import { useNavigate } from "react-router-dom"
 
 export default function ClientList({ client, onDelete }) {
     const navigate = useNavigate();
-    const role = localStorage.getItem("role");
+    const user = JSON.parse(localStorage.getItem("user"));
+    const role = user?.role;
+
+    console.log("USER:", user);
+    console.log("ROLE:", role);
     return (
         <>
 
@@ -14,8 +18,9 @@ export default function ClientList({ client, onDelete }) {
                 <td>
                     <div className="actions">
                         <button className="btn-view" onClick={(() => navigate(`/dashboard/clients/${client.id}`))}>View</button>
-                        {["ADMIN", "MAANGER"].includes(role) && (
-                            <button className="btn-edit" onClick={(() => navigate(`/dashboard/clients/edit${client.id}`))}>Modify</button>
+
+                        {["ADMIN", "MANAGER"].includes(role) && (
+                            <button className="btn-edit" onClick={(() => navigate(`/dashboard/clients/edit/${client.id}`))}>Modify</button>
                         )}
                         {role === "ADMIN" && (
                             <button className="btn-delete" onClick={() => onDelete(client.id)}>Delete</button>

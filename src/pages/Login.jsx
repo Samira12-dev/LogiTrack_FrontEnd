@@ -1,50 +1,53 @@
+
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { login } from "../service/authService";
 
-
 export default function Login() {
-
     const navigate = useNavigate();
-    const [ formDate, setFormDate] = useState({
+
+    const [formData, setFormData] = useState({
         email: "",
         password: ""
     });
 
-    const handleChnage = (e) => {
-        setFormDate({
-            ...formDate, [e.target.name]: e.target.value
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
         });
-    }
+    };
 
-    const handlSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
-            const response = await login(formDate);
-            localStorage.setItem( "token",  response.token );
+            const response = await login(formData);
+
+            console.log("LOGIN RESPONSE:", response);
+
+            localStorage.setItem("token", response.token);
+
             localStorage.setItem("user", JSON.stringify({
-                id:response.id,
-                nom:response.nom,
-                prenom:response.prenom,
-                email:response.email,
-                role:response.role
-            }))
+                id: response.id,
+                nom: response.nom,
+                prenom: response.prenom,
+                email: response.email,
+                role: response.role
+            }));
+
             navigate("/dashboard");
         } catch (error) {
-            console.log(error);
+            console.log("LOGIN ERROR:", error);
         }
-    }
-
+    };
 
     return (
         <section className="auth-section">
             <div className="auth-container">
-
                 <h2>Login</h2>
 
-                <form className="auth-form" onSubmit={handlSubmit}>
-
+                <form className="auth-form" onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
                         <input
@@ -52,8 +55,8 @@ export default function Login() {
                             id="email"
                             name="email"
                             placeholder="Enter your email"
-                            value={formDate.email}
-                            onChange={handleChnage}
+                            value={formData.email}
+                            onChange={handleChange}
                         />
                     </div>
 
@@ -64,18 +67,17 @@ export default function Login() {
                             id="password"
                             name="password"
                             placeholder="Enter your password"
-                            value={formDate.password}
-                            onChange={handleChnage}
+                            value={formData.password}
+                            onChange={handleChange}
                         />
                     </div>
 
                     <button type="submit" className="auth-btn">
                         Login
                     </button>
-
                 </form>
-
             </div>
         </section>
     );
 }
+

@@ -1,22 +1,19 @@
+
+
 import { Navigate } from "react-router-dom";
+import { getUser } from "../../service/authService";
 
-function RoleGuard({ roles = [], children }) {
+export default function RoleGuard({ roles, children }) {
+    const user = getUser();
 
-  // Njibo l'utilisateur men localStorage
-  const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+        return <Navigate to="/login" replace />;
+    }
 
-  // Ila makaynch utilisateur -> ymchi l login
-  if (user === null) {
-    return <Navigate to="/login" />;
-  }
+    if (!roles.includes(user.role)) {
+        return <Navigate to="/access-denied" replace />;
+    }
 
-  // Ila role dyalo machi mn les rôles li masmou7 lihom
-  if (roles.includes(user.role) === false) {
-    return <Navigate to="/access-denied" />;
-  }
-
-  // Ila kolchi mzyan -> yban contenu
-  return children;
+    return children;
 }
 
-export default RoleGuard;

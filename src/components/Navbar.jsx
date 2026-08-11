@@ -1,9 +1,11 @@
 import { FaBell, FaSearch, FaUserCircle } from "react-icons/fa";
+import { getUser } from "../service/authService";
 
 export default function Navbar() {
 
-    const user = JSON.parse(localStorage.getItem("user"));
-
+    const userData = localStorage.getItem("user");
+    const user = getUser();
+    const role = user?.role;
     return (
         <header className="navbar">
 
@@ -12,7 +14,7 @@ export default function Navbar() {
 
                 <div className="profile">
 
-                    <FaUserCircle className="profile-icon"/>
+                    <FaUserCircle className="profile-icon" />
 
                     <div className="profile-info">
                         <strong>

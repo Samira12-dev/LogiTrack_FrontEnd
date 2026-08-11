@@ -99,7 +99,7 @@ function App() {
               </RoleGuard>
             } />
             <Route
-              path="/dashboard/orders/:id"
+              path="orders/:id"
               element={
                 <RoleGuard roles={["ADMIN", "MANAGER", "AGENT"]}>
                   <OrderDetails />
@@ -113,15 +113,17 @@ function App() {
               </RoleGuard>
             } />
 
-            <Route path='users' element={
-              <RoleGuard roles={["ADMIN"]}>
-                <Users />
-              </RoleGuard>
-            } />
+            <Route
+              path='users'  element={
+                <RoleGuard roles={["ADMIN"]}>
+                  <Users />
+                </RoleGuard>
+              } />
             <Route path='users/ajouter-user' element={
               <RoleGuard roles={["ADMIN"]}>
                 <UserForm />
               </RoleGuard>} />
+              
             <Route path='profile' element={
               <RoleGuard roles={["ADMIN", "MANAGER", "AGENT"]}>
                 <Profile />
