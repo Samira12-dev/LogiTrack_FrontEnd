@@ -7,20 +7,8 @@ export default function Navbar() {
     return (
         <header className="navbar">
 
-            <div className="search-box">
-                <FaSearch />
-                <input 
-                    type="text"
-                    placeholder="Search..."
-                />
-            </div>
-
             <div className="navbar-right">
 
-                <div className="notification">
-                    <FaBell />
-                    <span></span>
-                </div>
 
                 <div className="profile">
 

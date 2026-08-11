@@ -265,17 +265,52 @@ main{
     padding:30px;
     background:var(--background);
 }
-.navbar{
-    height:var(--navbar-height);
-    background:var(--surface);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 30px;
-    box-shadow:var(--shadow);
-    position:sticky;
-    top:0;
-    z-index:900;
+.navbar {
+    height: var(--navbar-height);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 900;
+}
+
+/* Profile on the right */
+.navbar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 10px;
+}
+
+.profile-icon {
+    font-size: 38px;
+    color: var(--primary);
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.profile-info strong {
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.profile-info small {
+    font-size: 12px;
+    color: var(--text-secondary);
 }
 .search-box{
     width:350px;
@@ -301,7 +336,8 @@ main{
 }
 .navbar-right{
     display:flex;
-    align-items:center;
+    justify-content: end;
+    align-items:end;
     gap:25px;
 }
 .notification{
@@ -321,7 +357,7 @@ main{
 }
 .profile{
     display:flex;
-    align-items:center;
+    align-items:end;
     gap:10px;
     margin-right: 40px;
 }
