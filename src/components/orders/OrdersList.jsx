@@ -12,6 +12,8 @@ export default function OrdersList({ command, client }) {
     const user = JSON.parse(localStorage.getItem("user"));
     const role = user?.role;
 
+    
+
     return (
         <tr>
             <td>{command.id}</td>
@@ -38,7 +40,8 @@ export default function OrdersList({ command, client }) {
                         View
                     </button>
 
-                    {["ADMIN", "MANAGER"].includes(role) && (
+                    {["ADMIN", "MANAGER"].includes(role) 
+                    && (
                         <button
                             className="btn-edit"
                             onClick={() =>
