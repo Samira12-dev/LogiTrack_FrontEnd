@@ -1,5 +1,4 @@
-import { data } from 'react-router-dom';
-import api from '..//service/Api'
+import api from '../service/Api'
 
 export const register = async (data) => {
     const response = await api.post("/auth/register", data);

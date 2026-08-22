@@ -43,12 +43,12 @@ export default function Profile() {
 
                     <div className="profile-info">
                         <label>Last Name</label>
-                        <p>{user.prenom}</p>
+                        <p>{user.nom}</p>
                     </div>
 
                     <div className="profile-info">
                         <label>First Name</label>
-                        <p>{user.nom}</p>
+                        <p>{user.prenom}</p>
                     </div>
 
                     <div className="profile-info">
@@ -63,11 +63,11 @@ export default function Profile() {
 
                 </div>
 
-                {/* <div className="profile-actions">
-                    <button className="edit-btn" onClick={(()=>navigate("/dashboard/profile/edit-profile"))} >
+                <div className="profile-actions">
+                    <button className="edit-btn" onClick={() => navigate("/dashboard/profile/edit-profile")}>
                         Edit Profile
                     </button>
-                </div> */}
+                </div>
 
             </div>
 

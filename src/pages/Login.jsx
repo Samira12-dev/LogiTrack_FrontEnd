@@ -10,6 +10,8 @@ export default function Login() {
         email: "",
         password: ""
     });
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         setFormData({
@@ -20,11 +22,11 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
+        setLoading(true);
 
         try {
             const response = await login(formData);
-
-            console.log("LOGIN RESPONSE:", response);
 
             localStorage.setItem("token", response.token);
 
@@ -39,6 +41,12 @@ export default function Login() {
             navigate("/dashboard");
         } catch (error) {
             console.log("LOGIN ERROR:", error);
+            setError(
+                error.response?.data?.message ||
+                "Invalid email or password. Please try again."
+            );
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -46,6 +54,8 @@ export default function Login() {
         <section className="auth-section">
             <div className="auth-container">
                 <h2>Login</h2>
+
+                {error && <p className="auth-error">{error}</p>}
 
                 <form className="auth-form" onSubmit={handleSubmit}>
                     <div className="form-group">
@@ -72,8 +82,8 @@ export default function Login() {
                         />
                     </div>
 
-                    <button type="submit" className="auth-btn">
-                        Login
+                    <button type="submit" className="auth-btn" disabled={loading}>
+                        {loading ? "Logging in..." : "Login"}
                     </button>
                 </form>
             </div>

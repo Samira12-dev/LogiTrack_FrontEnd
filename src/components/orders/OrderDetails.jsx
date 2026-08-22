@@ -57,11 +57,10 @@ export default function OrderDetails() {
 
             <div className="item">
                 <label>Status</label>
-                {newStatus == "LIVREE" }
                 <select
                     value={newStatus}
-                    onChange={(e) => setNewStatus(e.target.value)}
-
+                    onChange={(e) => setNewStatus(e.target.value) }
+                    disabled={newStatus == "LIVREE"}
                 >
 
                     <option value="EN_ATTENTE">EN_ATTENTE</option>

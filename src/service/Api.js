@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const api = axios.create({
 
@@ -29,18 +28,26 @@ api.interceptors.response.use(
     },
     (error) => {
         if (error.response) {
+            const goTo = (path) => {
+                if (navigate) {
+                    navigate(path);
+                } else {
+                    window.location.href = path;
+                }
+            };
             switch (error.response.status) {
                 case 401:
                     localStorage.removeItem("token");
                     localStorage.removeItem("user");
-                    navigate("/login");
+                    goTo("/login");
                     break
                 case 403:
-                    navigate("/access-denied");
+                    console.log("403 Forbidden on:", error.config?.method?.toUpperCase(), error.config?.url);
+                    goTo("/access-denied");
                     break;
                 case 404:
                     console.log("Resource not found");
-                    navigate("/not-found")
+                    goTo("/not-found");
                     break;
                 case 500:
                     console.log("Internal server error");
@@ -48,8 +55,10 @@ api.interceptors.response.use(
                 default:
                     console.log("Unexpected error");
             }
-            throw error;
+        } else {
+            console.log("Network error or no response from server");
         }
+        return Promise.reject(error);
     }
 )
 export default api;

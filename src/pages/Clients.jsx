@@ -24,6 +24,8 @@ export default function Clients() {
     const [order, setOrder] = useState("asc");
 
     const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this client?")) return;
+
         try {
             await deleteClient(id);
 

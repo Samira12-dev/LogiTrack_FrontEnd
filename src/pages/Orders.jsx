@@ -2,7 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
     getAllOrders,
-    getOrdersByClient
+    getOrdersByClient,
+    deleteOrder
 } from "../service/orderService";
 import Pagination from "../components/common/Pagination";
 import SortControls from "../components/common/SortControls";
@@ -54,6 +55,17 @@ export default function Orders() {
     useEffect(() => {
         getOrders();
     }, [page, status, clientId, size, orderBy, order]);
+
+    const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this order?")) return;
+
+        try {
+            await deleteOrder(id);
+            setOrders((prevOrders) => prevOrders.filter((o) => o.id !== id));
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const getClients = async () => {
         try {
@@ -155,6 +167,7 @@ export default function Orders() {
                             key={o.id}
                             command={o}
                             client={clients}
+                            onDelete={handleDelete}
                         />
                     ))}
                 </tbody>

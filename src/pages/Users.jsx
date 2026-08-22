@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllUsers } from "../service/userService";
+import { getAllUsers, deleteUser } from "../service/userService";
 import Pagination from "../components/common/Pagination";
 import SortControls from "../components/common/SortControls";
+import UserList from "../components/users/UserList";
 
 const sortFields = [
     { value: "nom", label: "Nom" },
@@ -35,6 +36,17 @@ export default function Users() {
 
         loadUsers();
     }, [page, size, orderBy, order]);
+
+    const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this user?")) return;
+
+        try {
+            await deleteUser(id);
+            setUsers((prevUsers) => prevUsers.filter((u) => u.id !== id));
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const handleOrderByChange = (value) => {
         setOrderBy(value);
@@ -82,21 +94,7 @@ export default function Users() {
 
                 <tbody>
                     {users.map((u) => (
-                        <tr key={u.id}>
-                            <td>{u.nom}</td>
-                            <td>{u.prenom}</td>
-                            <td>{u.email}</td>
-                            <td>
-                                <span className="role-badge">{u.role}</span>
-                            </td>
-                            <td>
-                                <div className="actions">
-                                    <button className="btn-view">View</button>
-                                    <button className="btn-edit">Edit</button>
-                                    <button className="btn-delete">Delete</button>
-                                </div>
-                            </td>
-                        </tr>
+                        <UserList key={u.id} user={u} onDelete={handleDelete} />
                     ))}
                 </tbody>
             </table>

@@ -32,6 +32,10 @@ export const getOrdersByStatus=(status,page,size)=>{
 return api.get(`/commands?statut=${status}&page=${page}&size=${size}`);
 };
 
+export const deleteOrder = (id) => {
+    return api.delete(`/commands/${id}`);
+};
+
 export const getTotalOrders=()=>{
     return api.get("/commands/count")
 }

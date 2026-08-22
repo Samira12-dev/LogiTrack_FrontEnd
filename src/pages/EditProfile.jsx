@@ -1,6 +1,37 @@
-
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getMyProfile, updateProfile } from "../service/userService";
 
 export default function EditProfile() {
+    const navigate = useNavigate();
+
+    const [user, setUser] = useState({});
+    const [email, setEmail] = useState("");
+
+    const getProfile = async () => {
+        try {
+            const res = await getMyProfile();
+            setUser(res.data);
+            setEmail(res.data.email);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getProfile();
+    }, []);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await updateProfile({ email });
+            navigate("/dashboard/profile");
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <div className="edit-profile-page">
 
@@ -8,31 +39,21 @@ export default function EditProfile() {
 
                 <div className="edit-profile-header">
                     <h2>Edit Profile</h2>
-                    <p>Update your personal information</p>
+                    <p>Only your email address can be updated</p>
                 </div>
 
-                <form className="edit-profile-form">
+                <form className="edit-profile-form" onSubmit={handleSubmit}>
 
                     <div className="form-row">
 
                         <div className="form-group">
                             <label htmlFor="nom">Last Name</label>
-                            <input
-                                type="text"
-                                id="nom"
-                                name="nom"
-                                placeholder="Enter your last name"
-                            />
+                            <input type="text" id="nom" value={user.nom || ""} disabled />
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="prenom">First Name</label>
-                            <input
-                                type="text"
-                                id="prenom"
-                                name="prenom"
-                                placeholder="Enter your first name"
-                            />
+                            <input type="text" id="prenom" value={user.prenom || ""} disabled />
                         </div>
 
                     </div>
@@ -44,43 +65,14 @@ export default function EditProfile() {
                             id="email"
                             name="email"
                             placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="role">Role</label>
-                        <input
-                            type="text"
-                            id="role"
-                            value="ADMIN"
-                            disabled
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="password">
-                            New Password <small>(Optional)</small>
-                        </label>
-
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            placeholder="Leave empty to keep your current password"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="confirmPassword">
-                            Confirm Password <small>(Optional)</small>
-                        </label>
-
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            placeholder="Confirm your new password"
-                        />
+                        <input type="text" id="role" value={user.role || ""} disabled />
                     </div>
 
                     <div className="form-actions">
@@ -88,6 +80,7 @@ export default function EditProfile() {
                         <button
                             type="button"
                             className="cancel-btn"
+                            onClick={() => navigate("/dashboard/profile")}
                         >
                             Cancel
                         </button>

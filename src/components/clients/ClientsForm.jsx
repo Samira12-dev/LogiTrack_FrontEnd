@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { addClient,updateClient,getAllClients } from "../../service/clientService";
+import { addClient,updateClient,getClientById } from "../../service/clientService";
 export default function ClientsForm() {
     const {id} = useParams();
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function ClientsForm() {
     const getClient = async() =>{
             if(!id) return
             try{
-                const res= await getClientById()
+                const res= await getClientById(id)
                 setClient(res.data)
             }catch(error){
                 console.log(error)

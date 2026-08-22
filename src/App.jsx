@@ -1,9 +1,13 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
 import './App.css'
 import Header from './components/layout/Header'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import { Route, Routes } from 'react-router-dom'
+import Home from './pages/Home'
+import About from './pages/About'
+import Contact from './pages/Contact'
+import { Route, Routes, useNavigate } from 'react-router-dom'
+import { setupNavigate } from './service/Api'
 import Dashboard from './pages/Dashboard'
 import LayoutPublic from './components/layout/LayoutPublic'
 import LayoutPrivate from './components/layout/LayoutPrivate'
@@ -25,17 +29,24 @@ import ProductDetails from './components/products/ProductsDetails'
 import ClientsDetails from './components/clients/ClientsDetails'
 import OrderDetails from './components/orders/OrderDetails'
 import AddProductToOrder from './components/orders/AddProductToOrder'
+import UserDetails from './components/users/UserDetails'
 function App() {
-  const [count, setCount] = useState(0)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    setupNavigate(navigate)
+  }, [navigate])
 
   return (
     <>
       <Routes>
 
         <Route path='/' element={<LayoutPublic />}>
+          <Route index element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path='/access-denied' element={<AccessDenied />} />
           <Route path='*' element={<NotFound />} />
         </Route>
@@ -120,6 +131,16 @@ function App() {
                 </RoleGuard>
               } />
             <Route path='users/ajouter-user' element={
+              <RoleGuard roles={["ADMIN"]}>
+                <UserForm />
+              </RoleGuard>} />
+
+            <Route path='users/:id' element={
+              <RoleGuard roles={["ADMIN"]}>
+                <UserDetails />
+              </RoleGuard>} />
+
+            <Route path='users/edit/:id' element={
               <RoleGuard roles={["ADMIN"]}>
                 <UserForm />
               </RoleGuard>} />

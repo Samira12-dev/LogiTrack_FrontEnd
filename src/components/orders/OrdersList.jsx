@@ -1,8 +1,7 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function OrdersList({ command, client }) {
+export default function OrdersList({ command, client, onDelete }) {
     const navigate = useNavigate();
 
     const cl = client.find((c) => c.id === command.clientId);
@@ -11,8 +10,6 @@ export default function OrdersList({ command, client }) {
 
     const user = JSON.parse(localStorage.getItem("user"));
     const role = user?.role;
-
-    
 
     return (
         <tr>
@@ -31,6 +28,7 @@ export default function OrdersList({ command, client }) {
             <td>
                 <div className="actions">
 
+                    {/* View */}
                     <button
                         className="btn-view"
                         onClick={() =>
@@ -40,8 +38,8 @@ export default function OrdersList({ command, client }) {
                         View
                     </button>
 
-                    {["ADMIN", "MANAGER"].includes(role) 
-                    && (
+                    {/* Add Product */}
+                    {["ADMIN", "MANAGER"].includes(role) && (
                         <button
                             className="btn-edit"
                             onClick={() =>
@@ -54,8 +52,12 @@ export default function OrdersList({ command, client }) {
                         </button>
                     )}
 
+                    {/* Delete */}
                     {role === "ADMIN" && (
-                        <button className="btn-delete">
+                        <button
+                            className="btn-delete"
+                            onClick={() => onDelete(command.id)}
+                        >
                             Delete
                         </button>
                     )}
