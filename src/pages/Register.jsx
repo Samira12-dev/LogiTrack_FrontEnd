@@ -105,7 +105,7 @@ export default function Register() {
                             onChange={handleChange}
                         />
                     </div>
-
+{/* 
                     <div className="form-group">
 
                         <label>Role</label>
@@ -120,6 +120,17 @@ export default function Register() {
                             <option value="AGENT">Agent</option>
                         </select>
 
+                    </div> */}
+
+                    <div className="form-group">
+                        <label>Role</label>
+                        <select
+                            name="role"
+                            value="AGENT"
+                            disabled
+                        >
+                            <option value="AGENT">Agent</option>
+                        </select>
                     </div>
 
                     <button
